@@ -41,9 +41,18 @@ export class AddCommand implements Command {
                 // Get file status - files without status are treated as untracked
                 const fileStatus = gitStatus[normalizedPath];
 
-                // Skip files that are already staged or committed (clean)
-                if (fileStatus === "staged" || fileStatus === "committed") {
+                // Skip already-staged files
+                if (fileStatus === "staged") {
                     continue;
+                }
+
+                // Skip committed files whose content hasn't changed
+                if (fileStatus === "committed") {
+                    const committedContent = gitRepository.getCommittedFileContent(normalizedPath);
+                    const currentContent = fileSystem.getFileContents(file);
+                    if (committedContent === currentContent) {
+                        continue;
+                    }
                 }
 
                 // Stage files that have changes or are new (untracked/no status)

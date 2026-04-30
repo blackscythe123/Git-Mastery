@@ -752,6 +752,12 @@ export class GitRepository {
         return [...this.branches];
     }
 
+    public getCommittedFileContent(path: string): string | null {
+        const normalizedPath = path.startsWith("/") ? path.substring(1) : path;
+        const currentBranchState = this.branchStates[this.currentBranch];
+        return currentBranchState?.files[normalizedPath] ?? null;
+    }
+
     public updateFileStatus(path: string, status: FileStatus): void {
         const normalizedPath = path.startsWith("/") ? path.substring(1) : path;
         this.status[normalizedPath] = status;
