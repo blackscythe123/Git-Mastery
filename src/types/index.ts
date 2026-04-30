@@ -231,8 +231,8 @@ export interface GameContextProps {
     closeCommitDialog: () => void;
 
     // Debug functions
-    debugGiveMoney: (amount: number) => void;
-    debugUnlockAllLevels: () => void;
-    debugLockAllLevels: () => void;
-    debugCompleteCurrentLevel: () => void;
+    debugGiveMoney?: (amount: number) => void;
+    debugUnlockAllLevels?: () => void;
+    debugLockAllLevels?: () => void;
+    debugCompleteCurrentLevel?: () => void;
 }

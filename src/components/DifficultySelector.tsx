@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "~/components/ui/dialog";
 import { CheckCircle2, Settings } from "lucide-react";
 import { useGameContext } from "~/contexts/GameContext";
+import { useLanguage } from "~/contexts/LanguageContext";
 import { difficulties } from "~/config/difficulties";
 import type { DifficultyLevel } from "~/types";
 
@@ -17,6 +18,7 @@ interface DifficultySelectorProps {
 
 export function DifficultySelector({ isOpen, onClose, isInitialSelection = false }: DifficultySelectorProps) {
     const { currentDifficulty, setCurrentDifficulty } = useGameContext();
+    const { t } = useLanguage();
     const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(currentDifficulty);
 
     // Updates selectedDifficulty whenever currentDifficulty changes
@@ -84,7 +86,7 @@ export function DifficultySelector({ isOpen, onClose, isInitialSelection = false
                 <DialogHeader className="mt-8 text-center sm:mt-3">
                     <DialogTitle className="flex items-center justify-center text-xl text-white sm:text-2xl">
                         <Settings className="mr-2 h-5 w-5 text-purple-400 sm:h-6 sm:w-6" />
-                        {isInitialSelection ? "Welcome to Git Mastery! 🚀" : "Change Difficulty Level"}
+                        {isInitialSelection ? "Welcome to Git Mastery! 🚀" : t("difficulty.changeTitle")}
                     </DialogTitle>
                     <DialogDescription className="px-2 text-sm text-purple-300 sm:px-0 sm:text-base">
                         {isInitialSelection
@@ -110,7 +112,7 @@ export function DifficultySelector({ isOpen, onClose, isInitialSelection = false
 
                                 <div className="flex flex-1 flex-col space-y-2">
                                     <div className="text-xs text-purple-400">
-                                        <strong>Topics covered:</strong>
+                                        <strong>{t("difficulty.topicsCovered")}:</strong>
                                     </div>
                                     <div className="flex min-h-[60px] flex-wrap content-start gap-1">
                                         {diff.stages.map(stage => (
@@ -125,7 +127,7 @@ export function DifficultySelector({ isOpen, onClose, isInitialSelection = false
                                 </div>
 
                                 <div className="pt-2 text-center">
-                                    <div className="text-xs text-purple-400">Max Points: {diff.maxPoints}</div>
+                                    <div className="text-xs text-purple-400">{t("difficulty.maxPoints")}: {diff.maxPoints}</div>
                                 </div>
 
                                 <div className="flex justify-center pt-2">
@@ -146,7 +148,7 @@ export function DifficultySelector({ isOpen, onClose, isInitialSelection = false
                             variant="outline"
                             onClick={onClose}
                             className="w-full border-purple-700 text-purple-300 hover:bg-purple-900/50 sm:w-auto">
-                            Cancel
+                            {t("difficulty.cancel")}
                         </Button>
                     )}
                     <Button

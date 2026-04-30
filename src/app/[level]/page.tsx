@@ -196,7 +196,8 @@ function LevelPageContent() {
                             size="sm"
                             className="ml-1 h-6 w-6 p-0 text-purple-300 hover:bg-purple-800/50 hover:text-purple-100"
                             onClick={() => onEditFile(item.path)}
-                            title={t("level.editFile")}>
+                            title={t("level.editFile")}
+                            aria-label={t("level.editFile")}>
                             <Pencil className="h-3 w-3" />
                         </Button>
                         <Button
@@ -204,7 +205,8 @@ function LevelPageContent() {
                             size="sm"
                             className="ml-1 h-6 w-6 p-0 text-purple-300 hover:bg-red-900/30 hover:text-red-300"
                             onClick={() => onDeleteFile(item.path, item.name)}
-                            title={t("level.deleteFile")}>
+                            title={t("level.deleteFile")}
+                            aria-label={t("level.deleteFile")}>
                             <Trash2 className="h-3 w-3" />
                         </Button>
                     </div>
@@ -225,6 +227,9 @@ function LevelPageContent() {
                     // Check if level exists
                     const levelExists = levelManager.getLevel(stageParam, levelNum);
                     if (levelExists) {
+                        const isFirstLevel = levelNum === 1;
+                        const prevLevelDone = progressManager.isLevelCompleted(stageParam, levelNum - 1);
+                        if (!isFirstLevel && !prevLevelDone) return;
                         // Always call handleLevelFromUrl to ensure terminal is correctly initialized
                         // The function already checks if an update is needed internally
                         console.log(`Loading level from URL: ${stageParam}-${levelNum}`);

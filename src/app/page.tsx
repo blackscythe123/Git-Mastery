@@ -24,6 +24,13 @@ import {
     Settings,
     ShoppingCart,
     Gamepad2,
+    RotateCcw,
+    Archive,
+    Workflow,
+    Users,
+    Zap,
+    Search,
+    Trophy,
 } from "lucide-react";
 import { useGameContext } from "~/contexts/GameContext";
 import { PageLayout } from "~/components/layout/PageLayout";
@@ -176,6 +183,34 @@ export default function Home() {
                 return (
                     <Github className="h-5 w-5 text-purple-400 transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
                 );
+            case "Reset":
+                return (
+                    <RotateCcw className="h-5 w-5 text-purple-400 transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
+                );
+            case "Stash":
+                return (
+                    <Archive className="h-5 w-5 text-purple-400 transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
+                );
+            case "Workflow":
+                return (
+                    <Workflow className="h-5 w-5 text-purple-400 transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
+                );
+            case "Teamwork":
+                return (
+                    <Users className="h-5 w-5 text-purple-400 transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
+                );
+            case "Advanced":
+                return (
+                    <Zap className="h-5 w-5 text-purple-400 transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
+                );
+            case "Archaeology":
+                return (
+                    <Search className="h-5 w-5 text-purple-400 transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
+                );
+            case "Mastery":
+                return (
+                    <Trophy className="h-5 w-5 text-purple-400 transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
+                );
             default:
                 return (
                     <GitCommit className="h-5 w-5 text-purple-400 transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
@@ -190,7 +225,8 @@ export default function Home() {
         const stageOrder = Object.keys(stages);
         const stageIndex = stageOrder.indexOf(stageId);
 
-        if (stageIndex <= 0) return true;
+        if (stageIndex < 0) return false;
+        if (stageIndex === 0) return true;
 
         const previousStage = stageOrder[stageIndex - 1];
         if (!previousStage) return true;
@@ -340,7 +376,7 @@ export default function Home() {
                                     onClick={() => setShowMinigames(true)}
                                     className="w-full border-green-700 text-green-300 transition-all duration-300 hover:border-green-600 hover:bg-green-900/50 hover:text-green-200 sm:w-auto">
                                     <Gamepad2 className="mr-2 h-4 w-4" />
-                                    Mini Games
+                                    {t("minigame.title")}
                                 </Button>
                             </div>
                         </div>
@@ -348,36 +384,38 @@ export default function Home() {
                 </section>
 
                 {/* Difficulty Completion Celebration */}
-                {isMounted && isDifficultyCompleted() && getNextDifficulty() && (
-                    <AnimatedElement>
-                        <section className="container mx-auto px-4 py-6">
-                            <div className="mx-auto max-w-2xl rounded-lg border border-green-700/50 bg-gradient-to-r from-green-900/30 to-emerald-900/20 p-6 text-center">
-                                <div className="mb-4 flex justify-center">
-                                    <Award className="h-12 w-12 text-yellow-400" />
+                {(() => {
+                    const nextDiff = getNextDifficulty();
+                    return isMounted && isDifficultyCompleted() && nextDiff && (
+                        <AnimatedElement>
+                            <section className="container mx-auto px-4 py-6">
+                                <div className="mx-auto max-w-2xl rounded-lg border border-green-700/50 bg-gradient-to-r from-green-900/30 to-emerald-900/20 p-6 text-center">
+                                    <div className="mb-4 flex justify-center">
+                                        <Award className="h-12 w-12 text-yellow-400" />
+                                    </div>
+                                    <h2 className="mb-4 text-xl font-bold text-white sm:text-2xl">
+                                        🎉 Difficulty Mastered!
+                                    </h2>
+                                    <p className="mb-6 text-green-200">
+                                        Congratulations! You've completed all levels in {currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1)} difficulty.
+                                        Ready for the next challenge?
+                                    </p>
+                                    <Button
+                                        onClick={() => {
+                                            if (nextDiff) {
+                                                setCurrentDifficulty(nextDiff);
+                                            }
+                                        }}
+                                        size="lg"
+                                        className="group bg-gradient-to-r from-green-600 to-emerald-700 text-white hover:from-green-700 hover:to-emerald-800">
+                                        <ChevronRight className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                                        Advance to {nextDiff} Difficulty
+                                    </Button>
                                 </div>
-                                <h2 className="mb-4 text-xl font-bold text-white sm:text-2xl">
-                                    🎉 Difficulty Mastered!
-                                </h2>
-                                <p className="mb-6 text-green-200">
-                                    Congratulations! You've completed all levels in {currentDifficulty} difficulty.
-                                    Ready for the next challenge?
-                                </p>
-                                <Button
-                                    onClick={() => {
-                                        const nextDiff = getNextDifficulty();
-                                        if (nextDiff) {
-                                            setCurrentDifficulty(nextDiff);
-                                        }
-                                    }}
-                                    size="lg"
-                                    className="group bg-gradient-to-r from-green-600 to-emerald-700 text-white hover:from-green-700 hover:to-emerald-800">
-                                    <ChevronRight className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                                    Advance to {getNextDifficulty()} Difficulty
-                                </Button>
-                            </div>
-                        </section>
-                    </AnimatedElement>
-                )}
+                            </section>
+                        </AnimatedElement>
+                    );
+                })()}
 
                 {/* Animated Stats Section */}
                 <AnimatedElement>

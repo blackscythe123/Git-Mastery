@@ -672,11 +672,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         closeCommitDialog,
         openCommitDialog,
 
-        // Debug functions
-        debugGiveMoney,
-        debugUnlockAllLevels,
-        debugLockAllLevels,
-        debugCompleteCurrentLevel,
+        ...(process.env.NODE_ENV === "development" && {
+            debugGiveMoney,
+            debugUnlockAllLevels,
+            debugLockAllLevels,
+            debugCompleteCurrentLevel,
+        }),
     };
 
     return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

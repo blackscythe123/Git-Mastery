@@ -110,15 +110,15 @@ export function Navbar({ showLevelInfo = false }: NavbarProps) {
     };
 
     const handleDebugGiveMoney = (amount: number) => {
-        debugGiveMoney(amount);
+        debugGiveMoney?.(amount);
     };
 
     const handleDebugUnlockAllLevels = () => {
-        debugUnlockAllLevels();
+        debugUnlockAllLevels?.();
     };
 
     const handleDebugLockAllLevels = () => {
-        debugLockAllLevels();
+        debugLockAllLevels?.();
     };
 
     const handleDebugResetProgress = () => {
@@ -127,7 +127,7 @@ export function Navbar({ showLevelInfo = false }: NavbarProps) {
     };
 
     const handleDebugCompleteCurrentLevel = () => {
-        debugCompleteCurrentLevel();
+        debugCompleteCurrentLevel?.();
     };
 
     // Fetch GitHub star count for repository chip
@@ -388,7 +388,7 @@ export function Navbar({ showLevelInfo = false }: NavbarProps) {
                             </Button>
                         </Link>
 
-                        <Link href="/level" onClick={() => setMobileMenuOpen(false)}>
+                        <Link href="/" onClick={() => setMobileMenuOpen(false)}>
                             <Button
                                 variant="ghost"
                                 className="flex w-full items-center justify-start text-purple-300 hover:bg-purple-900/50 hover:text-purple-100">

@@ -106,6 +106,7 @@ export class ProgressManager {
 
     // Shop functionality
     public spendPoints(amount: number): boolean {
+        if (amount <= 0) return false;
         if (this.progress.coins >= amount) {
             this.progress.coins -= amount;
             this.progress.lastSavedAt = new Date().toISOString();
@@ -210,6 +211,7 @@ export class ProgressManager {
 
     // Activate double XP for 7 days
     public activateDoubleXp(): void {
+        if (this.isDoubleXpActive()) return;
         const expiryDate = new Date();
         expiryDate.setDate(expiryDate.getDate() + 7); // 7 days from now
 
