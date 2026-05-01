@@ -229,7 +229,22 @@ function LevelPageContent() {
                     if (levelExists) {
                         const isFirstLevel = levelNum === 1;
                         const prevLevelDone = progressManager.isLevelCompleted(stageParam, levelNum - 1);
-                        if (!isFirstLevel && !prevLevelDone) return;
+
+                        if (!isFirstLevel && !prevLevelDone) {
+                            console.log(`Requested level is locked: ${stageParam}-${levelNum}. Falling back to current progress.`);
+                            const progress = progressManager.getProgress();
+
+                            if (progress.currentStage && progress.currentLevel) {
+                                handleLevelFromUrl(progress.currentStage, progress.currentLevel);
+                            } else {
+                                handleLevelFromUrl(stageParam, 1);
+                            }
+
+                            setUrlParamsProcessed(true);
+                            levelParamProcessedRef.current = true;
+                            return;
+                        }
+
                         // Always call handleLevelFromUrl to ensure terminal is correctly initialized
                         // The function already checks if an update is needed internally
                         console.log(`Loading level from URL: ${stageParam}-${levelNum}`);
